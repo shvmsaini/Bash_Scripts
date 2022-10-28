@@ -1,11 +1,25 @@
-#! /bin/sh
+#! /bin/bash
 
-filename=$(uuidgen)
+echo -n "Checking dependencies... "
 
-flameshot gui -p ~/.${filename}.jpg
+if command -v flameshot &> /dev/null  &&  command -v xclip &> /dev/null  &&  command -v tesseract &> /dev/null   ; then
+	echo "Everything is there! Running..."
+else 
+	echo "One of the following programmes is not installed, make sure you install them first."
+	echo "flameshot, xclip, tesseract"
+  echo "Exiting..."
+	exit 1
+fi
 
-tesseract ~/.${filename}.jpg ~/.temp_${filename}
+# Temperory directory to work with, it will be deleted on reboot
+dir=$(mktemp -dt "$(basename $0).XXXXXXXXXXXX")
+file="screeshot.jpg"
 
-cat ~/.temp_${filename}.txt | xclip -selection clipboard
+flameshot gui -p $dir/$file
 
-rm ~/.temp_${filename}.txt
+TESSDATA_PREFIX=/usr/local/share/tessdata/ tesseract $dir/$file $dir/output
+
+xclip -selection clipboard < $dir/output.txt 
+
+# remove temp directory after execution of script
+trap "rm -rf $dir" EXIT
