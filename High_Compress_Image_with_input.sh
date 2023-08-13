@@ -1,4 +1,11 @@
 #!/bin/bash
+
+# Check if  is installed
+if ! command -v magick &> /dev/null; then
+    echo "Error: imagemagick is not installed. Please install imagemagick to use this script."
+    exit 1
+fi
+
 user_input=$(zenity --entry --text="What percentage of original quality do you want?");
 
 if [ $? = 0 ];
