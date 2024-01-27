@@ -36,7 +36,7 @@ directory=$(dirname "$input_file")
 file_name=$(basename "$input_file")
 
 # Convert PDF to images and compress
-convert -density "$resolution" -quality "$quality" -compress "$image_type" "$input_file" "$directory/compressed-$file_name.pdf"
+convert -density "$resolution" -quality "$quality" -compress "$image_type" "$input_file" "$directory/compressed-$file_name"
 
 echo "PDF compression complete. Compressed PDF saved as '$directory/compressed-$file_name.pdf'."
 
