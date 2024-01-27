@@ -1,2 +1,8 @@
 #!/bin/bash
-ffmpeg -nostdin -i $1 "./compressed-$1"
+
+selected_files=("$@")
+
+for i in "${selected_files[@]}"
+do
+	ffmpeg -nostdin -i $i "./compressed-$i"
+done
