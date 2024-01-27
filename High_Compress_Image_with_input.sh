@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Check if  is installed
+# Check if imagemagick is installed
 if ! command -v magick &> /dev/null; then
     echo "Error: imagemagick is not installed. Please install imagemagick to use this script."
     exit 1
@@ -15,8 +15,10 @@ then
 	then 
 		user_input="${user_input}%"
 	fi 
- 	
- 	magick convert "./$1" -resize $user_input  "./compressed-$1"
 
+ 	selected_files=("$@")
+	for i in "${selected_files[@]}"
+	do
+ 		magick convert "./$i" -resize $user_input  "./compressed-$i"
+	done
 fi
-
